@@ -4,43 +4,43 @@
   become: yes
   vars:
     java_package: openjdk-11-jdk
-    springboot_username: springbootuser
-    springboot_home: /usr/share/springpetclinic
-    springboot_app: /usr/share/springpetclinic/spring-petclinic-2.4.2.jar
+    app_username: springuser
+    app_home: /usr/share/springpetclinic
+    app_path: /usr/share/springpetclinic/spring-petclinic-2.4.2.jar
   tasks:
     - name: update packages & install java_package
       apt:
         name: "{{ java_package }}"
         update_cache: yes
         state: present
-    - name: create spring-petclinic directory
+    - name: create springpetclinic directory
       file:
-        path: "{{ springboot_home }}"
+        path: "{{ app_home }}"
         state: directory    
-    - name: download the springbootfile
+    - name: download the springpetclinic file
       get_url:
         url: https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
         dest: /usr/share/springpetclinic/spring-petclinic-2.4.2.jar
-    - name: add springboot user 
+    - name: add user 
       ansible.builtin.user:
-        name: "{{ springboot_username }}"
-        password: "{{ springboot_username }}"
+        name: "{{ app_username }}"
+        password: "{{ app_username }}"
         state: present
     - name: Recursively change ownership of a directory
       ansible.builtin.file:
-        path: "{{ springboot_app }}"
+        path: "{{ app_path}}"
         state: directory
         recurse: yes
-        owner: "{{ springboot_username }}"
-        group: "{{ springboot_username }}"
+        owner: "{{ app_username }}"
+        group: "{{ app_username }}"
     - name: Change file ownership, group and permissions
       ansible.builtin.file:
-        path: "{{ springboot_app }}"
-        owner: "{{ springboot_username }}"
-        group: "{{ springboot_username }}"
+        path: "{{ app_path}}"
+        owner: "{{ app_username }}"
+        group: "{{ app_username }}"
         mode: '500'    
         state: file
-    - name: configure springboot service
+    - name: configure springpetclinic service
       ansible.builtin.copy:
         src: springboot.service
         dest: /etc/systemd/system/springpetclinic.service 
