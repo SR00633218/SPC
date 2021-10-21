@@ -6,6 +6,7 @@
     java_package: openjdk-11-jdk
     springboot_username: springboot
     springboot_home: /usr/share/springpetclinic
+    spring-petclinic_path: /usr/share/springpetclinic
   tasks:
     - name: update packages & install java_package
       apt:
@@ -17,10 +18,10 @@
         name: "{{ springboot_username }}"
         home: "{{ springboot_home }}"
         state: present
-    - name: download the springboot jar file
+    - name: download the springbootfile
       get_url:
         url: https://referenceapplicationskhaja.s3-us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
-        dest: "{{ springboot_home }}"
+        dest: "{{ spring-petclinic_path }}"
         state: present
     - name: Recursively change ownership of a directory
       ansible.builtin.file:
