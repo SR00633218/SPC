@@ -6,7 +6,7 @@
     java_package: openjdk-11-jdk
     springboot_username: springboot
     springboot_password: springboot
-    springboot home: /usr/share/springpetclinic
+    springboot_home: /usr/share/springpetclinic
   tasks:
     - name: update packages & install java_package
       apt:
@@ -17,23 +17,23 @@
       ansible.builtin.user:
         name: "{{ springboot_username }}"
         password: "{{ springboot_password }}"
-        home: "{{ springboot home }}"
+        home: "{{ springboot_home }}"
         state: present
     - name: download the springboot jar file
       get_url:
         url: https://referenceapplicationskhaja.s3-us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
-        dest: "{{ springboot home }}"
+        dest: "{{ springboot_home }}"
         state: present
     - name: Recursively change ownership of a directory
       ansible.builtin.file:
-        path: "{{ springboot home }}"
+        path: "{{ springboot_home }}"
         state: directory
         recurse: yes
         owner: "{{ springboot_username }}"
         group: "{{ springboot_username }}"
     - name: Change file ownership, group and permissions
       ansible.builtin.file:
-        path: "{{ springboot home }}"
+        path: "{{ springboot_home }}"
         owner: "{{ springboot_username }}"
         group: "{{ springboot_username }}"
         mode: '500'    
