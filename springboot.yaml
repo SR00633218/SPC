@@ -5,7 +5,6 @@
   vars:
     java_package: openjdk-11-jdk
     springboot_username: springboot
-    springboot_password: springboot
     springboot_home: /usr/share/springpetclinic
   tasks:
     - name: update packages & install java_package
@@ -16,7 +15,6 @@
     - name: add springboot user 
       ansible.builtin.user:
         name: "{{ springboot_username }}"
-        password: "{{ springboot_password }}"
         home: "{{ springboot_home }}"
         state: present
     - name: download the springboot jar file
