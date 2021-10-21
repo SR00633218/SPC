@@ -1,0 +1,49 @@
+---
+- name: install and configure springboot 
+  hosts: appserver
+  become: yes
+  vars:
+    java_package: openjdk-11-jre-headless 
+    springboot user name: springboot
+    springboot password: springboot
+    springboot home: /usr/share/springpetclinic
+  tasks:
+    - name: update packages & install java_package
+      apt:
+        name: "{{ java_package }}"
+        update_cache: yes
+        state: present
+    - name: add springboot user 
+      ansible.builtin.user:
+        name: "{{ springboot user name }}"
+        password: "{{ springboot password }}"
+        home: "{{ springboot home }}"
+        state: present
+    - name: download the springboot jar file
+      get_url:
+        url: https://referenceapplicationskhaja.s3-us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
+        dest: "{{ springboot home }}"
+        state: present
+    - name: Recursively change ownership of a directory
+      ansible.builtin.file:
+        path: "{{ springboot home }}"
+        state: directory
+        recurse: yes
+        owner: "{{ springboot user name }}"
+        group: "{{ springboot user name }}"
+    - name: Change file ownership, group and permissions
+      ansible.builtin.file:
+        path: /etc/foo.conf
+        owner: "{{ springboot user name }}"
+        group: "{{ springboot user name }}"
+        mode: '500'    
+    - name: configure springboot service
+      ansible.builtin.copy:
+        src: springboot.service
+        dest: /etc/systemd/system/springpetclinic.service 
+  handlers:
+    - name: springpetclinic.service
+      ansible.builtin.systemd:
+        name: springpetclinic.service
+        enabled: yes
+        state: started       
