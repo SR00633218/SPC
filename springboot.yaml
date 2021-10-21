@@ -4,40 +4,42 @@
   become: yes
   vars:
     java_package: openjdk-11-jdk
-    springboot_username: springboot
+    springboot_username: springbootuser
     springboot_home: /usr/share/springpetclinic
+    springboot_app: /usr/share/springpetclinic/spring-petclinic-2.4.2.jar
   tasks:
     - name: update packages & install java_package
       apt:
         name: "{{ java_package }}"
         update_cache: yes
         state: present
+    - name: create spring-petclinic directory
+       file:
+        path: "{{ springboot_home }}"
+        state: directory    
     - name: download the springbootfile
       get_url:
         url: https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
-        dest: /tmp/spring-petclinic-2.4.2.jar
-    - name: Copy file with owner and permissions
-      ansible.builtin.copy:
-        src: /tmp/spring-petclinic-2.4.2.jar
-        dest: "{{ springboot_home }}"
+        dest: "{{ springboot_app }}"
     - name: add springboot user 
       ansible.builtin.user:
         name: "{{ springboot_username }}"
-        home: "{{ springboot_home }}"
+        password: "{{ springboot_username }}"
         state: present
     - name: Recursively change ownership of a directory
       ansible.builtin.file:
-        path: "{{ springboot_home }}"
+        path: "{{ springboot_app }}"
         state: directory
         recurse: yes
         owner: "{{ springboot_username }}"
         group: "{{ springboot_username }}"
     - name: Change file ownership, group and permissions
       ansible.builtin.file:
-        path: "{{ springboot_home }}"
+        path: "{{ springboot_app }}"
         owner: "{{ springboot_username }}"
         group: "{{ springboot_username }}"
         mode: '500'    
+        state: file
     - name: configure springboot service
       ansible.builtin.copy:
         src: springboot.service
