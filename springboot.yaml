@@ -6,7 +6,7 @@
     java_package: openjdk-11-jdk
     springboot_username: springboot
     springboot_home: /usr/share/springpetclinic
-    spring-petclinic_path: /usr/share/springpetclinic
+    spring_petclinic_path: /usr/share/springpetclinic
   tasks:
     - name: update packages & install java_package
       apt:
