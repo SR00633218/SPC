@@ -3,9 +3,9 @@
   hosts: appserver
   become: yes
   vars:
-    java_package: openjdk-11-jre-headless 
-    springboot user name: springboot
-    springboot password: springboot
+    java_package: openjdk-11-jdk
+    springboot_username: springboot
+    springboot_password: springboot
     springboot home: /usr/share/springpetclinic
   tasks:
     - name: update packages & install java_package
@@ -15,8 +15,8 @@
         state: present
     - name: add springboot user 
       ansible.builtin.user:
-        name: "{{ springboot user name }}"
-        password: "{{ springboot password }}"
+        name: "{{ springboot_username }}"
+        password: "{{ springboot_password }}"
         home: "{{ springboot home }}"
         state: present
     - name: download the springboot jar file
@@ -29,13 +29,13 @@
         path: "{{ springboot home }}"
         state: directory
         recurse: yes
-        owner: "{{ springboot user name }}"
-        group: "{{ springboot user name }}"
+        owner: "{{ springboot_username }}"
+        group: "{{ springboot_username }}"
     - name: Change file ownership, group and permissions
       ansible.builtin.file:
-        path: /etc/foo.conf
-        owner: "{{ springboot user name }}"
-        group: "{{ springboot user name }}"
+        path: "{{ springboot home }}"
+        owner: "{{ springboot_username }}"
+        group: "{{ springboot_username }}"
         mode: '500'    
     - name: configure springboot service
       ansible.builtin.copy:
