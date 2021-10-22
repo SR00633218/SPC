@@ -31,6 +31,8 @@
         path: "{{ app_path}}"
         state: directory
         recurse: yes
+        owner: "{{ user_name }}"
+        group: "{{ user_name }}"
     - name: Change file ownership, group and permissions
       ansible.builtin.file:
         path: "{{ app_path}}"
