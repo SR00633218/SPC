@@ -17,10 +17,11 @@
       file:
         path: "{{ app_home }}"
         state: directory    
-    - name: download the springpetclinic file
+    - name: download spring petclinic
       get_url:
         url: https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
         dest: "{{ app_path }}"
+    - name: add user  
       ansible.builtin.user:
         name: "{{ user_name }}"
         password: "{{ user_name }}"
