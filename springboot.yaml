@@ -24,7 +24,7 @@
     - name: add user  
       ansible.builtin.user:
         name: "{{ user_name }}"
-        password: "{{ user_name }}"
+        password: spring
         state: present
     - name: Recursively change ownership of a directory
       ansible.builtin.file:
@@ -41,8 +41,8 @@
         mode: '500'    
     - name: Copy the spring petclinic service file
       ansible.builtin.copy:
+        dest: /etc/systemd/system/springpetclinic.service
         src: springpetclinic.service
-        dest: /etc/systemd/system/springpetclinic.service 
         remote_src: yes 
     - name: Enable and start spring petclinic
       ansible.builtin.systemd:
