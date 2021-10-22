@@ -4,7 +4,7 @@
   become: yes
   vars:
     java_package: openjdk-11-jdk
-    user_name: springuser
+    user_name: springbootuser
     app_home: /usr/share/springpetclinic
     app_path: /usr/share/springpetclinic/spring-petclinic-2.4.2.jar
   tasks:
@@ -41,7 +41,7 @@
         mode: '500'    
     - name: Copy the spring petclinic service file
       ansible.builtin.copy:
-        src: springboot.service
+        src: springpetclinic.service
         dest: /etc/systemd/system/springpetclinic.service 
         remote_src: yes 
   handlers:
