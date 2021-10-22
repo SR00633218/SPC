@@ -40,10 +40,9 @@
         group: "{{ user_name }}"
         mode: '500'    
     - name: Copy the spring petclinic service file
-      ansible.builtin.copy:
+      copy:
         dest: /etc/systemd/system/springpetclinic.service
-        src: ./springpetclinic.service
-        remote_src: yes 
+        src: springpetclinic.service
     - name: Enable and start spring petclinic
       ansible.builtin.systemd:
         name: springpetclinic.service
