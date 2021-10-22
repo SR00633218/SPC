@@ -43,6 +43,7 @@
       ansible.builtin.copy:
         src: springboot.service
         dest: /etc/systemd/system/springpetclinic.service 
+        remote_src: yes
   handlers:
     - name: springpetclinic.service
       ansible.builtin.systemd:
