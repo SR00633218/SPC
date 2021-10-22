@@ -39,11 +39,11 @@
         owner: "{{ user_name }}"
         group: "{{ user_name }}"
         mode: '500'    
-    - name: configure springpetclinic service
+    - name: Copy the spring petclinic service file
       ansible.builtin.copy:
         src: springboot.service
         dest: /etc/systemd/system/springpetclinic.service 
-        remote_src: yes
+        remote_src: yes 
   handlers:
     - name: springpetclinic.service
       ansible.builtin.systemd:
