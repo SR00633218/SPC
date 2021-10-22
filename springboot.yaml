@@ -28,8 +28,8 @@
         state: present
     - name: Recursively change ownership of a directory
       ansible.builtin.file:
-        path: spc:spc /usr/share/spc/spring-petclinic.jar
-        state: file
+        path: spc /usr/share/spc/spring-petclinic.jar
+        state: directory   
         recurse: yes
         group: "{{ user_name }}"
         owner: root
