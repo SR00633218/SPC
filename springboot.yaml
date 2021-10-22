@@ -44,8 +44,7 @@
         src: springpetclinic.service
         dest: /etc/systemd/system/springpetclinic.service 
         remote_src: yes 
-  handlers:
-    - name: springpetclinic.service
+    - name: Enable and start spring petclinic
       ansible.builtin.systemd:
         name: springpetclinic.service
         enabled: yes
