@@ -4,7 +4,7 @@
   become: yes
   vars:
     java_package: openjdk-11-jdk
-    app_username: springuser
+    username: springuser
     app_home: /usr/share/springpetclinic
     app_path: /usr/share/springpetclinic/spring-petclinic-2.4.2.jar
   tasks:
@@ -20,19 +20,16 @@
     - name: download the springpetclinic file
       get_url:
         url: https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
-        dest: /usr/share/springpetclinic/spring-petclinic-2.4.2.jar
-    - name: add user 
+        dest: "{{ app_path }}"
       ansible.builtin.user:
-        name: "{{ app_username }}"
-        password: "{{ app_username }}"
+        name: "{{ username }}"
+        password: "{{ username }}"
         state: present
     - name: Recursively change ownership of a directory
       ansible.builtin.file:
         path: "{{ app_path}}"
         state: directory
         recurse: yes
-        owner: "{{ app_username }}"
-        group: "{{ app_username }}"
     - name: Change file ownership, group and permissions
       ansible.builtin.file:
         path: "{{ app_path}}"
